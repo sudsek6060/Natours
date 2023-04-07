@@ -8,13 +8,13 @@ const { json } = require('express/lib/response');
 exports.getAllTours = async (req, res) => {
     try {    
         // Build query
-        // 1.Filtering
+        // 1.1 Filtering
         const queryObj = {...req.query};
         const excludeFields = ['page', 'sort', 'limit', 'fields'];
         excludeFields.forEach(el => delete queryObj[el])
         //  console.log(req.query, queryObj);
 
-        // 2.Advance filtering
+        // 1.2 Advance filtering
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
         console.log(JSON.parse(queryStr));
@@ -31,7 +31,22 @@ exports.getAllTours = async (req, res) => {
     //     .where('difficulty')
     //     .equals('easy')
         
-    const query = Tour.find(JSON.parse(queryStr))
+    let query = Tour.find(JSON.parse(queryStr))
+
+    //2. Sorting
+    if(req.query.sort){
+        const sortBy = req.query.sort.split(',').join(' ')
+        query = query.sort(sortBy)
+    }else {
+        query = query.sort('-createdAt')
+    };
+    // 3. Field Limiting
+    if(req.query.fields) {
+        const fields = req.query.fields.split(',').join(' ');
+        query = query.select(fields);
+    }else {
+        query = query.select('-__v')
+    }
 
     // Execute query
     const tours = await query;
