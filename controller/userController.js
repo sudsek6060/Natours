@@ -1,3 +1,4 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
 const User = require('../model/userModel');
 const catchAsync = require('../Utils/catchAsync');
 const AppError = require('../Utils/appError');
@@ -46,6 +47,15 @@ exports.updateMe = catchAsync(async (req, res, next) => {
         data: {
             user: updateUser
         }
+    })
+});
+
+exports.deleteMe = catchAsync(async (req, res, next) => {
+    await User.findByIdAndUpdate(req.user.id, {active: false})
+
+    res.status(204).json({
+        status: 'success',
+        data: null
     })
 })
 exports.getUser = (req, res) => {
