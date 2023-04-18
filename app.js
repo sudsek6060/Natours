@@ -32,7 +32,7 @@ const limiter = rateLimit({
 app.use('/api',limiter)
 
 // Body parser, reading data from body into req.body
-app.use(express.json({limit: '1okb'}));
+app.use(express.json({limit: '200kb'}));
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSantize());
@@ -43,7 +43,11 @@ app.use(xss());
 // Prevent parameter pollution
 app.use(hpp({
     whitelist: [
-        'duration'
+        'duration', 'maxGroupSize',
+        'ratingsAverage',
+        'ratingsQuantity',
+        'price',
+        'difficulty'
     ]
 }));
 

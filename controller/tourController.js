@@ -1,6 +1,6 @@
 const { query } = require('express');
-const Tour = require('../model/tourModel');
 const { json } = require('express/lib/response');
+const Tour = require('../model/tourModel');
 const APIFeatures = require('./../Utils/apiFeatures');
 const catchAsync = require('../Utils/catchAsync');
 const AppError = require('../Utils/appError')
