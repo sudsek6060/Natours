@@ -23,5 +23,9 @@ exports.createReview = catchAsync( async (req, res, next) => {
            reviews: newReview
         }
     })
+});
+
+exports.deleteReview = catchAsync( async (req, res, next) => {
+    
 })
 
