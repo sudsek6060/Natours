@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const slugify = require('slugify');
-const Review = require('./reviewModel');
+// const Review = require('./reviewModel');
 // const User = require('./userModel')
 // const validator = require('validator')
 
