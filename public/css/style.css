@@ -44,7 +44,7 @@ body {
 }
 
 .main {
-  background-color: #d8d8d8;
+  background-color: #9e9e9e;
   padding: 8rem 6rem;
   -webkit-box-flex: 1;
   -ms-flex: 1;
@@ -368,14 +368,14 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: -webkit-gradient(
+  /* background-image: -webkit-gradient(
     linear,
     left top,
     right bottom,
     from(#7dd56f),
     to(#28b487)
   );
-  background-image: linear-gradient(to right bottom, #7dd56f, #28b487);
+  background-image: linear-gradient(to right bottom, #7dd56f, #28b487); */
   opacity: 0.85;
 }
 
@@ -399,6 +399,8 @@ body {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
+  background-color: #7a7a7a;
+  /* width: 60%; */
 }
 .heading-box__detail {
   font-size: 1.5rem;
