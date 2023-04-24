@@ -6,7 +6,8 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet')
 const mongoSantize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
-const hpp = require('hpp')
+const hpp = require('hpp');
+
 
 const AppError = require('./Utils/appError');
 const globalErrorHandler = require('./controller/errorController');
@@ -25,8 +26,57 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(path.join(__dirname, 'public')));
 
 // set security HTTP headers
-app.use(helmet())
-
+const scriptSrcUrls = [
+    'https://unpkg.com/',
+    'https://tile.openstreetmap.org',
+    'https://*.cloudflare.com/',
+    'https://cdnjs.cloudflare.com/ajax/libs/axios/',
+    'https://*.stripe.com',
+    'https:',
+    'data:'
+  ];
+  const styleSrcUrls = [
+    'https://unpkg.com/',
+    'https://tile.openstreetmap.org',
+    'https://fonts.googleapis.com/',
+    'https:'
+  ];
+  const connectSrcUrls = [
+    'https://unpkg.com',
+    'https://tile.openstreetmap.org',
+    'https://*.cloudflare.com/',
+    'http://127.0.0.1:3000'
+  ];
+  const fontSrcUrls = [
+    'fonts.googleapis.com',
+    'fonts.gstatic.com',
+    'https:',
+    'data:'
+  ];
+  const frameSrcUrls = ['https://*.stripe.com'];
+   
+  app.use(
+    helmet({ crossOriginResourcePolicy: false, crossOriginEmbedderPolicy: false })
+  );
+   
+  app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'", 'data:', 'blob:'],
+        baseUri: ["'self'"],
+        connectSrc: ["'self'", ...connectSrcUrls],
+        scriptSrc: ["'self'", ...scriptSrcUrls],
+        styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+        workerSrc: ["'self'", 'data:', 'blob:'],
+        objectSrc: ["'none'"],
+        imgSrc: ["'self'", 'blob:', 'data:', 'https:'],
+        fontSrc: ["'self'", ...fontSrcUrls],
+        childSrc: ["'self'", 'blob:'],
+        frameSrc: ["'self'", ...frameSrcUrls],
+        upgradeInsecureRequests: []
+      }
+    })
+  );
 // Development logging
 if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'));
