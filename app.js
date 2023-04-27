@@ -7,6 +7,7 @@ const helmet = require('helmet')
 const mongoSantize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const cookieParser = require('cookie-parser')
 
 
 const AppError = require('./Utils/appError');
@@ -92,6 +93,7 @@ app.use('/api',limiter)
 
 // Body parser, reading data from body into req.body
 app.use(express.json({limit: '200kb'}));
+app.use(cookieParser())
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSantize());
