@@ -15,7 +15,8 @@ const globalErrorHandler = require('./controller/errorController');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
-const viewRouter = require('./routes/viewRoute')
+const viewRouter = require('./routes/viewRoute');
+const { extend } = require('leaflet');
 
 const app = express();
 
@@ -93,6 +94,7 @@ app.use('/api',limiter)
 
 // Body parser, reading data from body into req.body
 app.use(express.json({limit: '200kb'}));
+app.use(express.urlencoded({extended: true, limit: '100kb'}))
 app.use(cookieParser())
 
 // Data sanitization against NoSQL query injection
